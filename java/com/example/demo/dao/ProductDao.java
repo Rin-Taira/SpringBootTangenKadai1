@@ -10,7 +10,7 @@ public interface ProductDao {
 
 	public int deleteById(String id);
 	
-	public int updateById(String id, String name, String price, String category, String description, String nowId);
+	public int updateById(int id, String name, int price, int category, String description, int nowId);
 
 	public List<Product> findAll();
 

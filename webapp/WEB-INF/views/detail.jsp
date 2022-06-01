@@ -59,19 +59,18 @@
 					</div>
 					<div>
 						<label>商品説明</label>
-						<textarea name="description" readonly class="base-text"
-							style="background-color: rgb(209, 209, 209);">
-${product.description}
-          </textarea>
+						<textarea name="description" readonly class="base-text" style="background-color: rgb(209, 209, 209);">
+							${product.description}
+          				</textarea>
 					</div>
 				</fieldset>
 				<div>
 					<div class="btns">
 						<c:if test="${user.role == 1}">
 							<input type="button" onclick="openModal()" value="削除" class="basic_btn">
-							<input type="button" onclick="location.href='./updateInput.jsp'" value="編集" class="basic_btn">
+							<input type="button" onclick="location.href='./updateInput'" value="編集" class="basic_btn">
 						</c:if>
-						<input type="button" onclick="location.href='./menu.jsp'" value="戻る" class="cancel_btn">
+						<input type="button" onclick="location.href='./return'" value="戻る" class="cancel_btn">
 					</div>
 					<div id="modal">
 						<p class="modal_message">削除しますか？</p>

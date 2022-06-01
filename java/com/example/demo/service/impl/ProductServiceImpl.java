@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public int updateById(String id, String name, String price, String category, String description, String nowId) {
+	public int updateById(int id, String name, int price, int category, String description, int nowId) {
 		return productDao.updateById(id, name, price, category, description, nowId);
 	}
 

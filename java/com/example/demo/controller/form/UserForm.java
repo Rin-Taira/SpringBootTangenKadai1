@@ -12,6 +12,7 @@ public class UserForm {
     
     private String name;
     private int role;
+    
 	public String getLoginId() {
 		return loginId;
 	}

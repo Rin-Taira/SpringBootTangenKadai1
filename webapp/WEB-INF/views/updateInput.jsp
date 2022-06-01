@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +38,7 @@
 				<p class="error">${msg}</p>
 			</c:if>
 
-			<form action="update" method="get">
+			<form:form action="update" method="get" modelAttribute="update">
 				<fieldset class="label-130">
 					<div>
 						<label>商品ID</label>
@@ -87,7 +88,7 @@
 				</fieldset>
 				<div class="btns">
 					<button type="button" onclick="openModal()" class="basic_btn">更新</button>
-					<input type="button" onclick="location.href='./menu.jsp'" value="メニューに戻る" class="cancel_btn">
+					<input type="button" onclick="location.href='./return'" value="メニューに戻る" class="cancel_btn">
 				</div>
 				<div id="modal">
 					<p class="modal_message">更新しますか？</p>
@@ -96,7 +97,7 @@
 						<button type="button" onclick="closeModal()" class="cancel_btn">キャンセル</button>
 					</div>
 				</div>
-			</form>
+			</form:form>
 		</div>
 	</div>
 	<div id="fadeLayer"></div>
