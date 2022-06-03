@@ -25,8 +25,10 @@ import com.example.demo.compare.ProductCompareByPrice1;
 import com.example.demo.compare.ProductCompareByPrice2;
 import com.example.demo.controller.form.ProductForm;
 import com.example.demo.controller.form.UserForm;
+import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.User;
+import com.example.demo.service.CategoryService;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.UserService;
 import com.example.demo.util.ParamUtil;
@@ -39,6 +41,9 @@ public class SystemController {
     
     @Autowired
     private ProductService productService;
+    
+    @Autowired
+    private CategoryService categoryService;
     
     @Autowired
     HttpSession session;
@@ -61,9 +66,12 @@ public class SystemController {
     	}
     	
     	List<Product> productList = productService.find();
+    	
+    	List<Category> categoryList = categoryService.find();
 
     	session.setAttribute("user", user);
     	session.setAttribute("productList", productList);
+    	session.setAttribute("categoryList", categoryList);
     	
     	return "menu";
     }
@@ -138,11 +146,13 @@ public class SystemController {
     
     
     @RequestMapping(value="/detail", method=RequestMethod.GET)
-    public String detail(@RequestParam(name = "id", defaultValue = "") String id, Model model) {
+    public String detail(@ModelAttribute("detail") ProductForm form, @RequestParam(name = "id", defaultValue = "") String id, Model model) {
     	
     	Product product = productService.findById(id);
     	
-    	session.setAttribute("product", product);
+    	session.setAttribute("currentId", product.getProductId());
+    	
+    	model.addAttribute("product", product);
     	
     	return "detail";
     	
@@ -154,18 +164,16 @@ public class SystemController {
     }
     
     @RequestMapping("/updateInput")
-    public String updateInput(@ModelAttribute("login") UserForm form, Model model) {
+    public String updateInput(@ModelAttribute("update") ProductForm form, Model model) {
+    	List<Category> categoryList = categoryService.find();
+    	model.addAttribute("categoryList", categoryList);
     	return "updateInput";
     }
     
     @RequestMapping(value="/delete", method=RequestMethod.GET)
-    public String delete(@RequestParam(name = "product_id", defaultValue = "") String id, Model model) {
-    	
-    	System.out.println(id);
+    public String delete(@RequestParam(name = "id", defaultValue = "") String id, Model model) {
     	
     	int result = productService.deleteById(id);
-    	
-    	System.out.println(result);
     	
     	if (result == -1) {
 			model.addAttribute("msg", "削除に失敗しました。");
@@ -183,12 +191,15 @@ public class SystemController {
     }
     
     @RequestMapping(value="/update", method=RequestMethod.GET)
-    public String update(@Validated @ModelAttribute("update") ProductForm form, BindingResult bindingResult, Model model) {
+    public String update(@RequestParam(name = "category", defaultValue = "") Integer id, @Validated @ModelAttribute("product") ProductForm productForm, BindingResult bindingResult, Model model) {
     	
     	if (bindingResult.hasErrors()) {
+    		System.out.println("バリデーションエラーがあるねぇ");
     		return "updateInput";
     	}
-    	int result = productService.updateById(form.getProductId(), form.getName(), form.getPrice(), form.getCategoryId(), form.getDescription(), ((Product) session.getAttribute("product")).getProductId());
+    	
+    	int result = productService.updateById(productForm.getProductId(), productForm.getName(), productForm.getPrice(), id, productForm.getDescription(), (Integer) session.getAttribute("currentId"));
+    	
     	if (result == -1) {
     		model.addAttribute("msg", "更新時にエラーが発生しました");
     		return "updateInput";
@@ -201,31 +212,8 @@ public class SystemController {
     	session.setAttribute("productList", productList);
     	
     	return "menu";
-    	
-//    	int result = productService.deleteById(id);
-//    	
-//    	System.out.println(result);
-//    	
-//    	if (result == -1) {
-//			model.addAttribute("msg", "削除に失敗しました。");
-//			return "detail";
-//		}
-//
-//		model.addAttribute("msg", "削除に成功しました。");
-//		
-//		List<Product> productList = productService.find();
-//
-//		session.setAttribute("productList", productList);
-//		
-//		return "menu";
 	
     }
-//    @RequestMapping(value="/login", method=RequestMethod.POST)
-//    public String login(@Validated @ModelAttribute("login") UserForm form, Model model) {
-//    	
-//    	return "menu";
-//    }
-    
     
     
 }

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,51 +37,45 @@
 			<div class="img_block">
 				<img src="images/マッキー.png" class="product_img"><br>
 			</div>
-			<form action="delete" method="get">
+			<form:form action="updateInput" modelAttribute="detail">
 				<fieldset class="label-130 product_block">
 					<c:if test="${not empty msg}">
 						<p class="error">${msg}</p>
 					</c:if>
 					<div>
-						<label>商品ID</label> <input type="text" name="product_id"
-							value="${product.productId}" readonly class="base-text">
+						<label>商品ID</label> <form:input path="productId" value="${product.productId}" readonly="readonly" class="base-text"/>
 					</div>
 					<div>
-						<label>商品名</label> <input type="text" name="product_name"
-							value="${product.name}" readonly class="base-text">
+						<label>商品名</label> <form:input path="name" value="${product.name}" readonly="readonly" class="base-text"/>
 					</div>
 					<div>
-						<label>単価</label> <input type="text" name="price"
-							value="${product.price}" readonly class="base-text">
+						<label>単価</label> <form:input path="price" value="${product.price}" readonly="readonly" class="base-text"/>
 					</div>
 					<div>
-						<label>カテゴリ</label> <input type="text" name="category"
-							value="${product.categoryName}" readonly class="base-text">
+						<label>カテゴリ</label> <form:input path="categoryName" value="${product.categoryName}" readonly="readonly" class="base-text"/>
 					</div>
 					<div>
 						<label>商品説明</label>
-						<textarea name="description" readonly class="base-text" style="background-color: rgb(209, 209, 209);">
-							${product.description}
-          				</textarea>
+						<form:input path="description" value="${product.description}" readonly="readonly" class="base-text" style="background-color: rgb(209, 209, 209);"/>
 					</div>
 				</fieldset>
 				<div>
 					<div class="btns">
 						<c:if test="${user.role == 1}">
 							<input type="button" onclick="openModal()" value="削除" class="basic_btn">
-							<input type="button" onclick="location.href='./updateInput'" value="編集" class="basic_btn">
+							<input type="submit" value="編集" class="basic_btn">
 						</c:if>
 						<input type="button" onclick="location.href='./return'" value="戻る" class="cancel_btn">
 					</div>
 					<div id="modal">
 						<p class="modal_message">削除しますか？</p>
 						<div class="btns">
-							<button type="submit" class="basic_btn">削除</button>
+							<button type="button" onclick="location.href='delete?id=${product.productId}'" class="basic_btn">削除</button>
 							<button type="button" onclick="closeModal()" class="cancel_btn">キャンセル</button>
 						</div>
 					</div>
 				</div>
-			</form>
+			</form:form>
 		</div>
 	</div>
 	<div id="fadeLayer"></div>

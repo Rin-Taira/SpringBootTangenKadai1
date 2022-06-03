@@ -42,30 +42,18 @@
 				<fieldset class="label-130">
 					<div>
 						<label>商品ID</label>
-						<input type="text" name="product_id" value="${product.productId}" class="base-text">
-						<span class="error">
-							<c:if test="${not empty msg2}">
-								<p>${msg2}</p>
-							</c:if>
-						</span>
+						<form:input type="text" path="productId" class="base-text"/>
+						<form:errors path="productId" cssStyle="color: red"/>
 					</div>
 					<div>
 						<label>商品名</label>
-						<input type="text" name="product_name" value="${product.name}" class="base-text">
-						<span class="error">
-							<c:if test="${not empty msg3}">
-								<p>${msg3}</p>
-							</c:if>
-						</span>
+						<form:input type="text" path="name" class="base-text"/>
+						<form:errors path="name" cssStyle="color: red"/>
 					</div>
 					<div>
 						<label>単価</label>
-						<input type="text" name="price" value="${product.price}" class="base-text">
-						<span class="error">
-							<c:if test="${not empty msg4}">
-								<p>${msg4}</p>
-							</c:if>
-						</span>
+						<form:input type="text" path="price" class="base-text"/>
+						<form:errors path="price" cssStyle="color: red"/>
 					</div>
 					<div>
 						<label>カテゴリ</label>
@@ -77,9 +65,7 @@
 					</div>
 					<div>
 						<label>商品説明</label>
-						<textarea name="description" class="base-text">
-						${product.description}
-            			</textarea>
+						<form:textarea path="description" class="base-text"/>
 					</div>
 					<div>
 						<label>画像</label>
