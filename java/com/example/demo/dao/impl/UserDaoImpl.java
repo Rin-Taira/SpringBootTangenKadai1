@@ -25,20 +25,6 @@ public class UserDaoImpl implements UserDao {
 		List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE login_id = :id AND password = :pass", param, new BeanPropertyRowMapper<User>(User.class));
         return list.isEmpty() ? null : list.get(0);
     	
-//        try (PreparedStatement stmt = connection.prepareStatement(SQL_SELECT_ID_AND_PASS)) {
-//        	stmt.setString(1, id);
-//            stmt.setString(2, pass);
-//
-//            ResultSet rs = stmt.executeQuery();
-//
-//            if (rs.next()) {
-//                return new User(rs.getString("login_id"), rs.getString("password"), rs.getString("name"), rs.getInt("role"));
-//            } else {
-//                return null;
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
     }
     
 }
