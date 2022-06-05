@@ -1,13 +1,13 @@
 package com.example.demo.controller.form;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 public class UserForm {
 
-	@NotBlank(message="IDは必須です")
+	@NotEmpty(message="IDは必須です")
 	private String loginId;
     
-	@NotBlank(message="PASSは必須です")
+	@NotEmpty(message="PASSは必須です")
     private String password;
     
     private String name;

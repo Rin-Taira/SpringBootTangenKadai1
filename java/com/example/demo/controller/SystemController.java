@@ -2,6 +2,7 @@
 
 package com.example.demo.controller;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,13 +50,14 @@ public class SystemController {
     HttpSession session;
     
     @RequestMapping("/index")
-    public String index(@ModelAttribute("login") UserForm form, Model model) {
+    public String index(@ModelAttribute("user") UserForm form, Model model) {
 
         return "index";
     }
     
+    
     @RequestMapping(value="/login", method=RequestMethod.POST)
-    public String login(@Validated @ModelAttribute("login") UserForm form, BindingResult bindingResult, Model model) {
+    public String login(@Validated @ModelAttribute("user") UserForm form, @ModelAttribute("product") ProductForm productForm, BindingResult bindingResult, Model model) {
     	if (bindingResult.hasErrors()) {
     		return "index";
     	}
@@ -76,8 +78,14 @@ public class SystemController {
     	return "menu";
     }
     
+    @RequestMapping("/logout")
+    public String logout(@ModelAttribute("user") UserForm form, Model model) {
+    	session.invalidate();
+        return "logout";
+    }
+    
     @RequestMapping(value="/sort", method=RequestMethod.GET)
-    public String sort(@RequestParam(name = "sort", defaultValue = "") String sortNum, Model model) {
+    public String sort(@RequestParam(name = "sort", defaultValue = "") String sortNum, @ModelAttribute("product") ProductForm form, Model model) {
 		
 		for (int i = 1; i < 7; i++) {
 			session.removeAttribute("s" + i);
@@ -121,7 +129,7 @@ public class SystemController {
     
     
     @RequestMapping(value="/search", method=RequestMethod.GET)
-    public String search(@RequestParam(name = "keyword", defaultValue = "") String keyword, Model model) {
+    public String search(@RequestParam(name = "keyword", defaultValue = "") String keyword, @ModelAttribute("product") ProductForm form, Model model) {
     	
     	for (int i = 1; i < 7; i++) {
 			session.removeAttribute("s" + i);
@@ -146,7 +154,7 @@ public class SystemController {
     
     
     @RequestMapping(value="/detail", method=RequestMethod.GET)
-    public String detail(@ModelAttribute("detail") ProductForm form, @RequestParam(name = "id", defaultValue = "") String id, Model model) {
+    public String detail(@ModelAttribute("product") ProductForm form, @RequestParam(name = "id", defaultValue = "") String id, Model model) {
     	
     	Product product = productService.findById(id);
     	
@@ -159,19 +167,19 @@ public class SystemController {
     }
     
     @RequestMapping("/return")
-    public String top(@ModelAttribute("login") UserForm form, Model model) {
+    public String top(@ModelAttribute("product") ProductForm form,  Model model) {
     	return "menu";
     }
     
     @RequestMapping("/updateInput")
-    public String updateInput(@ModelAttribute("update") ProductForm form, Model model) {
-    	List<Category> categoryList = categoryService.find();
-    	model.addAttribute("categoryList", categoryList);
+    public String updateInput(@ModelAttribute("product") ProductForm form, Model model) {
+//    	List<Category> categoryList = categoryService.find();
+//    	model.addAttribute("categoryList", categoryList);
     	return "updateInput";
     }
     
     @RequestMapping(value="/delete", method=RequestMethod.GET)
-    public String delete(@RequestParam(name = "id", defaultValue = "") String id, Model model) {
+    public String delete(@RequestParam(name = "id", defaultValue = "") String id, @ModelAttribute("product") ProductForm form, Model model) {
     	
     	int result = productService.deleteById(id);
     	
@@ -194,7 +202,13 @@ public class SystemController {
     public String update(@RequestParam(name = "category", defaultValue = "") Integer id, @Validated @ModelAttribute("product") ProductForm productForm, BindingResult bindingResult, Model model) {
     	
     	if (bindingResult.hasErrors()) {
-    		System.out.println("バリデーションエラーがあるねぇ");
+    		return "updateInput";
+    	}
+    	
+    	if (productForm.getProductId() != (Integer) session.getAttribute("currentId") && productService.findById(String.valueOf(productForm.getProductId())) != null) {
+    		model.addAttribute("msg", "商品IDが重複しています");
+    		List<Category> categoryList = categoryService.find();
+        	model.addAttribute("categoryList", categoryList);
     		return "updateInput";
     	}
     	
@@ -215,6 +229,44 @@ public class SystemController {
 	
     }
     
+    @RequestMapping("/insert")
+    public String insert(@ModelAttribute("product") ProductForm form,  Model model) {
+    	return "insert";
+    }
+    
+    @RequestMapping(value="/insertCommit", method=RequestMethod.GET)
+    public String insertCommit(@RequestParam(name = "category", defaultValue = "") Integer id, @Validated @ModelAttribute("product") ProductForm form, BindingResult bindingResult, Model model) {
+    	
+    	if (bindingResult.hasErrors()) {
+    		return "insert";
+    	}
+ 
+    	
+    	if (productService.findById(String.valueOf(form.getProductId())) != null) {
+    		model.addAttribute("msg1", "商品IDが重複しています");
+    		System.out.println("エラー起きちゃってますよ");
+//    		List<Category> categoryList = categoryService.find();
+//        	model.addAttribute("categoryList", categoryList);
+    		return "insert";
+    	}
+    	
+    	Product product = new Product(form.getProductId(), id, form.getCategoryName(), form.getName(), form.getPrice(), form.getDescription(), new Timestamp(System.currentTimeMillis()), null);
+    	int result = productService.insert(product);
+    	
+    	if (result == -1) {
+    		model.addAttribute("msg1", "更新時にエラーが発生しました");
+    		return "insert";
+    	}
+    	
+    	model.addAttribute("msg", "更新処理が完了しました。");
+    	
+    	List<Product> productList = productService.find();
+
+    	session.setAttribute("productList", productList);
+    	
+    	return "menu";
+	
+    }
     
 }
 

@@ -22,7 +22,7 @@
 			</c:if>
 		</div>
 
-		<form:form action="login" method="post" modelAttribute="login">
+		<form:form action="login" method="post" modelAttribute="user">
 			<fieldset>
 				<div class="cp_iptxt">
 					<form:input class="base_input" type="text" path="loginId" placeholder="ID"/>

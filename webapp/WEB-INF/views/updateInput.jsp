@@ -12,7 +12,7 @@
 </head>
 <body>
 	<c:if test="${empty user}">
-		<c:redirect url="/index.jsp" />
+		<c:redirect url="/index" />
 	</c:if>
 	<div class="header">
 		<h1 class="site_logo">
@@ -38,7 +38,7 @@
 				<p class="error">${msg}</p>
 			</c:if>
 
-			<form:form action="update" method="get" modelAttribute="update">
+			<form:form action="update" method="get" modelAttribute="product">
 				<fieldset class="label-130">
 					<div>
 						<label>商品ID</label>

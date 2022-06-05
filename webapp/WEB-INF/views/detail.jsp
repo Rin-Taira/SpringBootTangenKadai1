@@ -12,7 +12,7 @@
 </head>
 <body>
 	<c:if test="${empty user}">
-		<c:redirect url="/index.jsp" />
+		<c:redirect url="/index" />
 	</c:if>
 	<div class="header">
 		<h1 class="site_logo">
@@ -37,26 +37,26 @@
 			<div class="img_block">
 				<img src="images/マッキー.png" class="product_img"><br>
 			</div>
-			<form:form action="updateInput" modelAttribute="detail">
+			<form:form action="updateInput" modelAttribute="product">
 				<fieldset class="label-130 product_block">
 					<c:if test="${not empty msg}">
 						<p class="error">${msg}</p>
 					</c:if>
 					<div>
-						<label>商品ID</label> <form:input path="productId" value="${product.productId}" readonly="readonly" class="base-text"/>
+						<label>商品ID</label> <form:input path="productId" readonly="readonly" class="base-text"/>
 					</div>
 					<div>
-						<label>商品名</label> <form:input path="name" value="${product.name}" readonly="readonly" class="base-text"/>
+						<label>商品名</label> <form:input path="name" readonly="readonly" class="base-text"/>
 					</div>
 					<div>
-						<label>単価</label> <form:input path="price" value="${product.price}" readonly="readonly" class="base-text"/>
+						<label>単価</label> <form:input path="price" readonly="readonly" class="base-text"/>
 					</div>
 					<div>
-						<label>カテゴリ</label> <form:input path="categoryName" value="${product.categoryName}" readonly="readonly" class="base-text"/>
+						<label>カテゴリ</label> <form:input path="categoryName" readonly="readonly" class="base-text"/>
 					</div>
 					<div>
 						<label>商品説明</label>
-						<form:input path="description" value="${product.description}" readonly="readonly" class="base-text" style="background-color: rgb(209, 209, 209);"/>
+						<form:textarea path="description" readonly="readonly" class="base-text" style="background-color: rgb(209, 209, 209);"/>
 					</div>
 				</fieldset>
 				<div>

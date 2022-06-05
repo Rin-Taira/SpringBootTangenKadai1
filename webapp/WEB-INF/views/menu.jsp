@@ -15,7 +15,7 @@
 </head>
 <body>
 	<c:if test="${empty user}">
-		<c:redirect url="/index.jsp" />
+		<c:redirect url="/index" />
 	</c:if>
 	<div id="app">
 
@@ -39,7 +39,7 @@
 
 		<c:if test="${user.role == 1}">
 			<div class="btn">
-				<a class="basic_btn regist" href="insert.jsp">新規登録</a>
+				<a class="basic_btn regist" href="insert">新規登録</a>
 			</div>
 		</c:if>
 		<p>
@@ -80,14 +80,23 @@
 			</thead>
 			<tbody>
 				<c:forEach var="product" items="${productList}">
-					<tr>
-						<td>${fn:escapeXml(product.productId)}</td>
-						<td>${fn:escapeXml(product.name)}</td>
-						<td>${fn:escapeXml(product.price)}</td>
-						<td>${fn:escapeXml(product.categoryName)}</td>
-						<td><a class="detail_btn"
-							href="detail?id=${fn:escapeXml(product.productId)}">詳細</a></td>
-					</tr>
+					<form:form action="detail" modelAttribute="product" method="get">
+						<form:input type="hidden" path="productId" value="${product.productId}"/>
+						<form:input type="hidden" path="categoryId" value="${product.categoryId}"/>
+						<form:input type="hidden" path="categoryName" value="${product.categoryName}"/>
+						<form:input type="hidden" path="name" value="${product.name}"/>
+						<form:input type="hidden" path="price" value="${product.price}"/>
+						<form:input type="hidden" path="description" value="${product.description}"/>
+						<form:input type="hidden" path="createdDate" value="${product.createdDate}"/>
+						<form:input type="hidden" path="updatedDate" value="${product.updatedDate}"/>
+						<tr>
+							<td>${fn:escapeXml(product.productId)}</td>
+							<td>${fn:escapeXml(product.name)}</td>
+							<td>${fn:escapeXml(product.price)}</td>
+							<td>${fn:escapeXml(product.categoryName)}</td>
+							<td><button type="submit" class="detail_btn" name="id" value="${product.productId}">詳細</button></td>
+						</tr>
+						</form:form>
 				</c:forEach>
 			</tbody>
 		</table>

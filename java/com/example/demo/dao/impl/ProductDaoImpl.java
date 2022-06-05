@@ -63,7 +63,7 @@ public class ProductDaoImpl implements ProductDao {
 	@Override // createdatについては反映されない、それは引数productでそれがnullになっているから。見直し必要かも
 	public int insert(Product product) {
 		BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(product);
-        return jdbcTemplate.update("INSERT INTO products (product_id, category_id, name, price, description, created_at) VALUES (:productId, :categoryId, :name, :price, :description, :createdDate)", paramSource);
+        return jdbcTemplate.update("INSERT INTO products (product_id, category_id, name, price, description, created_at, updated_at) VALUES (:productId, :categoryId, :name, :price, :description, :createdDate, :createdDate)", paramSource);
 	}
 //	private static final String SQL_SELECT_ID = "SELECT product_id, category_id, c.name AS c_name, p.name AS p_name, price, description, p.created_at AS p_created_at, p.updated_at AS p_updated_at FROM products AS p INNER JOIN categories AS c ON p.category_id = c.id WHERE product_id = ?";
 //	private static final String SQL_SELECT_ALL = "SELECT product_id, category_id, c.name AS c_name, p.name AS p_name, price, description, p.created_at AS p_created_at, p.updated_at AS p_updated_at FROM products AS p INNER JOIN categories AS c ON p.category_id = c.id ORDER BY product_id";

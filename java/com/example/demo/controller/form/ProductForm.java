@@ -2,18 +2,21 @@ package com.example.demo.controller.form;
 
 import java.sql.Timestamp;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class ProductForm {
 
-//	@NotEmpty(message="商品IDは必須です")
+	@NotNull(message="商品IDは必須です")
 	private int productId;
 	
 	private int categoryId;
 	private String categoryName;
 	
-//	@NotEmpty(message="商品名は必須です")
+	@NotEmpty(message="商品名は必須です")
 	private String name;
 	
-//	@NotEmpty(message="単価は必須です")
+	@NotNull(message="単価は必須です")
 	private int price;
 	
 	private String description;
