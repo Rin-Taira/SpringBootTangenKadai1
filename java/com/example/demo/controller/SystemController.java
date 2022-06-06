@@ -1,5 +1,3 @@
-// deleteのエラー処理を少しする必要がある。
-
 package com.example.demo.controller;
 
 import java.sql.Timestamp;
@@ -173,8 +171,6 @@ public class SystemController {
     
     @RequestMapping("/updateInput")
     public String updateInput(@ModelAttribute("product") ProductForm form, Model model) {
-//    	List<Category> categoryList = categoryService.find();
-//    	model.addAttribute("categoryList", categoryList);
     	return "updateInput";
     }
     
@@ -244,9 +240,6 @@ public class SystemController {
     	
     	if (productService.findById(String.valueOf(form.getProductId())) != null) {
     		model.addAttribute("msg1", "商品IDが重複しています");
-    		System.out.println("エラー起きちゃってますよ");
-//    		List<Category> categoryList = categoryService.find();
-//        	model.addAttribute("categoryList", categoryList);
     		return "insert";
     	}
     	
